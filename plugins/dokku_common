@@ -57,8 +57,16 @@ function sanitize_name() {
 	return 0
 }
 
+function sanitize_app_name() {
+	local NAME="$1"
+	[[ "$NAME" == "" ]] && fail "You must specify an $2"
+	local NAME2="${NAME//[^a-zA-Z0-9_-\.]//}"
+	[[ "$NAME" != "$NAME2" ]] && fail "Invalid $2"
+	return 0
+}
+
 function check_app_name() {
-	sanitize_name "$1" "app name"
+	sanitize_app_name "$1" "app name"
 	APP="$1"
 	IMAGE_GENERIC="dokku/$APP"
 
